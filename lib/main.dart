@@ -1,20 +1,32 @@
+import 'package:filterapp/config/app_db.dart';
+import 'package:filterapp/config/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+import 'app/routes/app_pages.dart';
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+void main() async{
+   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize the database
+  await AppDatabase().database;
+  runApp(const MyApp());
+} 
+
+class MyApp extends StatelessWidget {
+  
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Filter Me',
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
+      theme: AppThemes.lightTheme,
+      darkTheme: AppThemes.darkTheme,
+      themeMode: ThemeMode.light,
     );
-  }
+}
 }
